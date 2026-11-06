@@ -169,7 +169,7 @@
       }
 
       const data = new FormData();
-      data.append("video", file);
+      data.append("video", file, "clipforge-upload.mp4");
       data.append("clip_count", document.getElementById("count").value);
       data.append("clip_length", document.getElementById("length").value);
 
