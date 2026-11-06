@@ -85,7 +85,22 @@ async def process_video(
             shutil.copyfileobj(video.file, destination)
 
         duration = get_video_duration(input_path)
+               if end_time is None:
+            end_time = duration
 
+        if start_time < 0 or end_time > duration or end_time <= start_time:
+            raise HTTPException(
+                400,
+                "Please choose a valid start and end time."
+            )
+
+        range_duration = end_time - start_time
+
+        if range_duration < clip_length:
+            raise HTTPException(
+                400,
+                "The selected time range is shorter than your clip length."
+            )
         if duration < clip_length:
             raise HTTPException(
                 400,
