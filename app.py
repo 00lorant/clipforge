@@ -85,8 +85,8 @@ async def process_video(
             shutil.copyfileobj(video.file, destination)
 
         duration = get_video_duration(input_path)
-               if end_time is None:
-                   end_time = duration
+                       if end_time is None:
+                           end_time = duration
 
         if start_time < 0 or end_time > duration or end_time <= start_time:
             raise HTTPException(
