@@ -110,7 +110,7 @@ async def process_video(
                 "-i", str(input_path),
                 "-t", str(clip_length),
                 "-vf",
-                "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920",
+                "scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280",
                 "-c:v", "libx264",
                 "-preset", "veryfast",
                 "-crf", "23",
