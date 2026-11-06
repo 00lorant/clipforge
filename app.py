@@ -56,7 +56,9 @@ def get_video_duration(video_path):
 async def process_video(
     video: UploadFile = File(...),
     clip_count: int = Form(5),
-    clip_length: int = Form(30)
+    clip_length: int = Form(30),
+    start_time: float = Form(0),
+    end_time: float | None = Form(None)
 ):
     if not video.filename:
         raise HTTPException(400, "Please select a video.")
