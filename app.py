@@ -95,13 +95,15 @@ async def process_video(
         clips = []
 
         for i in range(clip_count):
-            if clip_count == 1:
-                start = 0
+                        if clip_count == 1:
+                start = start_time
             else:
                 start = (
-                    (duration - clip_length)
+                    start_time
+                    + (end_time - start_time - clip_length)
                     * i / (clip_count - 1)
                 )
+                
 
             clip_name = f"clip_{i + 1:02d}.mp4"
             clip_path = job_dir / clip_name
