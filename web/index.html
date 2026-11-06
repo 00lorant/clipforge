@@ -114,7 +114,11 @@
       <form id="clipForm">
         <label for="video">Upload a video</label>
         <input id="video" type="file" accept="video/*" required>
+        <label for="startTime">Start time (seconds)</label>
+<input id="startTime" type="number" min="0" value="0" step="1">
 
+<label for="endTime">End time (seconds)</label>
+<input id="endTime" type="number" min="1" placeholder="End of video" step="1">
         <label for="count">Number of clips</label>
         <select id="count">
           <option value="5">5 clips</option>
