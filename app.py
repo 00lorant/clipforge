@@ -86,7 +86,7 @@ async def process_video(
 
         duration = get_video_duration(input_path)
                if end_time is None:
-            end_time = duration
+                   end_time = duration
 
         if start_time < 0 or end_time > duration or end_time <= start_time:
             raise HTTPException(
@@ -101,11 +101,8 @@ async def process_video(
                 400,
                 "The selected time range is shorter than your clip length."
             )
-        if duration < clip_length:
-            raise HTTPException(
-                400,
-                "Your video is shorter than the selected clip length."
-            )
+        
+            
 
         clips = []
 
