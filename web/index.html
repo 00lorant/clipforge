@@ -182,6 +182,7 @@
       const data = new FormData();
       data.append("video", file, "clipforge-upload.mp4");
       data.append("clip_count", document.getElementById("count").value);
+      data.append("template", document.getElementById("template").value);
       data.append("clip_length", document.getElementById("length").value);
       data.append("start_time", document.getElementById("startTime").value || "0");
       const endTime = document.getElementById("endTime").value;
