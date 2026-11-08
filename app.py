@@ -116,7 +116,7 @@ async def process_video(
             )
 
         range_duration = end_time - start_time
-                if range_duration < clip_length:
+        if range_duration < clip_length:
             raise HTTPException(
                 400,
                 "The selected time range is shorter than your clip length."
