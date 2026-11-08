@@ -58,7 +58,7 @@ async def process_video(
     clip_count: int = Form(5),
     clip_length: int = Form(30),
     start_time: float = Form(0),
-    end_time: float | None = Form(None)
+    end_time: float | None = Form(None),
     template: str = Form("viral")
 ):
     if not video.filename:
