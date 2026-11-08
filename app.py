@@ -21,7 +21,21 @@ WEB_DIR.mkdir(exist_ok=True)
 app = FastAPI(title="ClipForge")
 groq_client = Groq(api_key=os.environ["GROQ_API_KEY"]) if os.getenv("GROQ_API_KEY") else None
 app.mount("/files", StaticFiles(directory=str(OUTPUT_DIR)), name="files")
+def transcribe_audio(audio_path: Path):
+    if groq_client is None:
+        raise HTTPException(
+            status_code=500,
+            detail="Speech-to-text is not configured."
+        )
 
+    with audio_path.open("rb") as audio_file:
+        transcription = groq_client.audio.transcriptions.create(
+            file=(audio_path.name, audio_file),
+            model="whisper-large-v3-turbo",
+            response_format="verbose_json"
+        )
+
+    return transcription
 
 @app.get("/health")
 def health():
