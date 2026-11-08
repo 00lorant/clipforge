@@ -116,7 +116,11 @@ async def process_video(
             )
 
         range_duration = end_time - start_time
-        
+                if range_duration < clip_length:
+            raise HTTPException(
+                400,
+                "The selected time range is shorter than your clip length."
+            )
         audio_path = job_dir / "audio.mp3"
 
         subprocess.run(
@@ -136,11 +140,7 @@ async def process_video(
 
         transcription = transcribe_audio(audio_path)
         
-        if range_duration < clip_length:
-            raise HTTPException(
-                400,
-                "The selected time range is shorter than your clip length."
-            )
+        
         
             
 
