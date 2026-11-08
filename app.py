@@ -24,6 +24,7 @@ groq_client = Groq(api_key=os.environ["GROQ_API_KEY"]) if os.getenv("GROQ_API_KE
 
 app.mount("/files", StaticFiles(directory=str(OUTPUT_DIR)), name="files")
 
+
 def transcribe_audio(audio_path: Path):
     if groq_client is None:
         raise HTTPException(
@@ -39,6 +40,7 @@ def transcribe_audio(audio_path: Path):
         )
 
     return transcription
+
 
 @app.get("/health")
 def health():
