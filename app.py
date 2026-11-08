@@ -71,7 +71,8 @@ async def process_video(
 
     if not 1 <= clip_count <= 20:
         raise HTTPException(400, "Choose between 1 and 20 clips.")
-
+    if template not in {"viral", "clean", "podcast", "gaming"}:
+    raise HTTPException(400, "Invalid template selected.")
     if not 10 <= clip_length <= 60:
         raise HTTPException(400, "Clip length must be 10–60 seconds.")
 
