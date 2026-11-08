@@ -59,6 +59,7 @@ async def process_video(
     clip_length: int = Form(30),
     start_time: float = Form(0),
     end_time: float | None = Form(None)
+    template: str = Form("viral")
 ):
     if not video.filename:
         raise HTTPException(400, "Please select a video.")
