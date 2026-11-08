@@ -116,7 +116,26 @@ async def process_video(
             )
 
         range_duration = end_time - start_time
+        
+        audio_path = job_dir / "audio.mp3"
 
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-i", str(input_path),
+                "-vn",
+                "-ac", "1",
+                "-ar", "16000",
+                "-b:a", "64k",
+                str(audio_path)
+            ],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        transcription = transcribe_audio(audio_path)
+        
         if range_duration < clip_length:
             raise HTTPException(
                 400,
