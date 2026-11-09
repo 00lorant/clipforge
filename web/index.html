@@ -204,7 +204,20 @@
         }
 
         statusBox.textContent = result.message;
+       
+        const transcript = document.createElement("div");
+        transcript.className = "clip";
 
+        const transcriptTitle = document.createElement("h3");
+        transcriptTitle.textContent = "Speech-to-Text Transcript";
+
+        const transcriptText = document.createElement("p");
+        transcriptText.textContent = result.transcription || "No transcript available.";
+
+        transcript.appendChild(transcriptTitle);
+        transcript.appendChild(transcriptText);
+        results.appendChild(transcript);
+        
         result.clips.forEach((clip) => {
           const item = document.createElement("div");
           item.className = "clip";
