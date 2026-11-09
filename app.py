@@ -198,13 +198,13 @@ async def process_video(
                     job_dir / clip["name"],
                     arcname=clip["name"]
                 )
-
-       return {
-           "message": "Your clips are ready!",
-           "transcription": transcription.text,
-           "clips": clips,
-           "zip_url": f"/files/{job_id}/all_clips.zip"
-       }
+            
+        return {
+            "message": "Your clips are ready!",
+            "transcription": transcription.text,
+            "clips": clips,
+            "zip_url": f"/files/{job_id}/all_clips.zip"
+        }
 
     except HTTPException:
         shutil.rmtree(job_dir, ignore_errors=True)
