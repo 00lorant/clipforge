@@ -72,7 +72,7 @@ def get_video_duration(video_path):
 
 
 @app.post("/api/process")
-async def process_video(
+def process_video(
     video: UploadFile = File(...),
     clip_count: int = Form(5),
     clip_length: int = Form(30),
@@ -220,4 +220,4 @@ async def process_video(
         raise HTTPException(500, "Something went wrong.")
 
     finally:
-        await video.close()
+        video.file.close()
