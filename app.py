@@ -168,7 +168,7 @@ def process_video(
                 "-vf",
                 "scale=720:1280:force_original_aspect_ratio=increase,crop=720:1280",
                 "-c:v", "libx264",
-                "-preset", "veryfast",
+                "-preset", "ultrafast",
                 "-crf", "23",
                 "-c:a", "aac",
                 "-b:a", "128k",
