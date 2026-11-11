@@ -103,6 +103,7 @@ def process_video(
     input_path = job_dir / "original_video"
         
     if not processing_lock.acquire(blocking=False):
+        shutil.rmtree(job_dir, ignore_errors=True)
         raise HTTPException(
             status_code=429,
             detail="Another video is currently processing. Please wait."
