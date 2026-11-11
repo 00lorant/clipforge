@@ -20,7 +20,7 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 WEB_DIR.mkdir(exist_ok=True)
 
 app = FastAPI(title="ClipForge")
-
+processing_lock = threading.Lock()
 groq_client = Groq(api_key=os.environ["GROQ_API_KEY"]) if os.getenv("GROQ_API_KEY") else None
 
 app.mount("/files", StaticFiles(directory=str(OUTPUT_DIR)), name="files")
@@ -101,7 +101,13 @@ def process_video(
     job_dir.mkdir(parents=True)
 
     input_path = job_dir / "original_video"
-
+        
+    if not processing_lock.acquire(blocking=False):
+        raise HTTPException(
+            status_code=429,
+            detail="Another video is currently processing. Please wait."
+        )
+   
     try:
         with input_path.open("wb") as destination:
             shutil.copyfileobj(video.file, destination)
@@ -222,3 +228,4 @@ def process_video(
 
     finally:
         video.file.close()
+        processing_lock.release()
