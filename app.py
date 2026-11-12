@@ -215,8 +215,8 @@ def process_video(
                 archive.write(
                     job_dir / clip["name"],
                     arcname=clip["name"]
-                )
-            
+                )        
+        logging.info("All clips zipped: job %s", job_id)    
         return {
             "message": "Your clips are ready!",
             "transcription": transcription.text,
