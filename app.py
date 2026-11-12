@@ -121,6 +121,7 @@ def process_video(
             shutil.copyfileobj(video.file, destination)
 
         duration = get_video_duration(input_path)
+        logging.info("Video duration detected: %.1f seconds", duration)
         if end_time is None:
             end_time = duration
 
