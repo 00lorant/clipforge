@@ -6,6 +6,7 @@ import shutil
 import zipfile
 import subprocess
 import threading
+import logging
 from pathlib import Path
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
