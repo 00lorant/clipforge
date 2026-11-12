@@ -223,20 +223,26 @@ def process_video(
             "clips": clips,
             "zip_url": f"/files/{job_id}/all_clips.zip"
         }
-
-    except HTTPException:
+            except HTTPException:
+        logging.exception("Video processing failed: job %s", job_id)
         shutil.rmtree(job_dir, ignore_errors=True)
         raise
-    except subprocess.CalledProcessError as error:
+
+    except subprocess.CalledProcessError:
+        logging.exception("FFmpeg processing failed: job %s", job_id)
         shutil.rmtree(job_dir, ignore_errors=True)
         raise HTTPException(
             500,
             "Video processing failed. Please try another video."
         )
+
     except Exception:
+        logging.exception("Unexpected processing error: job %s", job_id)
         shutil.rmtree(job_dir, ignore_errors=True)
         raise HTTPException(500, "Something went wrong.")
 
     finally:
         video.file.close()
         processing_lock.release()
+
+    
