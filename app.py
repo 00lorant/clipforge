@@ -115,6 +115,8 @@ def process_video(
         )
    
     try:
+        logging.info("Video processing started: job %s", job_id)
+        
         with input_path.open("wb") as destination:
             shutil.copyfileobj(video.file, destination)
 
