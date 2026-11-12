@@ -153,7 +153,7 @@ def process_video(
             text=True,
             check=True
         )
-
+        logging.info("Audio extraction completed: job %s", job_id)
         transcription = transcribe_audio(audio_path)
         
         
