@@ -223,7 +223,7 @@ def process_video(
             "clips": clips,
             "zip_url": f"/files/{job_id}/all_clips.zip"
         }
-            except HTTPException:
+    except HTTPException:
         logging.exception("Video processing failed: job %s", job_id)
         shutil.rmtree(job_dir, ignore_errors=True)
         raise
