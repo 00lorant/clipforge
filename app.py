@@ -198,7 +198,9 @@ def process_video(
                 text=True,
                 check=True
             )
-
+            
+            logging.info("Clip %s completed: job %s", clip_name, job_id)
+            
             clips.append({
                 "name": clip_name,
                 "url": f"/files/{job_id}/{clip_name}"
