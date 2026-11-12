@@ -21,6 +21,10 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 WEB_DIR.mkdir(exist_ok=True)
 
 app = FastAPI(title="ClipForge")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(message)s"
+)
 processing_lock = threading.Lock()
 groq_client = Groq(api_key=os.environ["GROQ_API_KEY"]) if os.getenv("GROQ_API_KEY") else None
 
