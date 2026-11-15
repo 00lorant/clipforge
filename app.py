@@ -131,10 +131,6 @@ def health():
 
 
 
-@app.get("/health")
-def health():
-    return {"status": "ClipForge is running"}
-
 
 @app.get("/")
 def home():
