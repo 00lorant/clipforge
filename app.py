@@ -75,7 +75,7 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
             )
 
     transcript_text = "\n".join(transcript_lines)[:18000]
-
+    max_start = end_time - clip_length
     response = groq_client.chat.completions.create(
         model="openai/gpt-oss-20b",
         messages=[
@@ -92,7 +92,7 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
                 "content": (
                     f"Choose {clip_count} interesting moments for "
                     f"{clip_length}-second clips. The allowed range is "
-                    f"{start_time} to {end_time} seconds. "
+                    f"{start_time} to {max_start} seconds. "
                     "Prioritize funny, surprising, emotional, or useful "
                     "moments. Return JSON only.\n\n"
                     f"TRANSCRIPT:\n{transcript_text}"
