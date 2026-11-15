@@ -228,15 +228,17 @@ def process_video(
         shutil.rmtree(job_dir, ignore_errors=True)
         raise
 
-    except subprocess.CalledProcessError:
+    
+        except subprocess.CalledProcessError as e:
         logging.exception("FFmpeg processing failed: job %s", job_id)
+        logging.error("FFmpeg error details: %s", (e.stderr or "")[-4000:])
         shutil.rmtree(job_dir, ignore_errors=True)
         raise HTTPException(
             500,
             "Video processing failed. Please try another video."
         )
-
-    except Exception:
+   
+        except Exception:
         logging.exception("Unexpected processing error: job %s", job_id)
         shutil.rmtree(job_dir, ignore_errors=True)
         raise HTTPException(500, "Something went wrong.")
