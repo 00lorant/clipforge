@@ -239,17 +239,27 @@ def process_video(
         
             
 
+        
         clips = []
 
-        for i in range(clip_count):
-            if clip_count == 1:
-                start = start_time
-            else:
-                start = (
-                    start_time
-                    + (end_time - start_time - clip_length)
-                    * i / (clip_count - 1)
-                )
+        logging.info("AI highlight selection started: job %s", job_id)
+
+        highlight_starts = select_highlights(
+            transcription,
+            clip_count,
+            clip_length,
+            start_time,
+            end_time
+        )
+
+        logging.info(
+            "AI selected %s highlights: job %s",
+            len(highlight_starts),
+            job_id
+        )
+
+        for i, start in enumerate(highlight_starts):
+
                 
 
             clip_name = f"clip_{i + 1:02d}.mp4"
