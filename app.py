@@ -60,9 +60,14 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
     transcript_lines = []
 
     for segment in segments:
-        seg_start = float(segment.start)
-        seg_end = float(segment.end)
-        seg_text = segment.text
+        if isinstance(segment, dict):
+            seg_start = float(segment["start"])
+            seg_end = float(segment["end"])
+            seg_text = segment["text"]
+        else:
+            seg_start = float(segment.start)
+            seg_end = float(segment.end)
+            seg_text = segment.text  
 
         if seg_end >= start_time and seg_start <= end_time:
             transcript_lines.append(
