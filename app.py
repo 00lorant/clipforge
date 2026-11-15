@@ -48,6 +48,89 @@ def transcribe_audio(audio_path: Path):
     return transcription
 
 
+def select_highlights(transcription, clip_count, clip_length, start_time, end_time):
+    if groq_client is None:
+        raise HTTPException(500, "AI is not configured.")
+
+    segments = getattr(transcription, "segments", None) or []
+
+    if not segments:
+        raise HTTPException(500, "No transcript segments were found.")
+
+    transcript_lines = []
+
+    for segment in segments:
+        seg_start = float(segment.start)
+        seg_end = float(segment.end)
+        seg_text = segment.text
+
+        if seg_end >= start_time and seg_start <= end_time:
+            transcript_lines.append(
+                f"{seg_start:.1f}-{seg_end:.1f}: {seg_text}"
+            )
+
+    transcript_text = "\n".join(transcript_lines)[:18000]
+
+    response = groq_client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You select engaging video highlights. "
+                    "Return only valid JSON with a key named starts "
+                    "containing a list of clip start times in seconds."
+                )
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Choose {clip_count} interesting moments for "
+                    f"{clip_length}-second clips. The allowed range is "
+                    f"{start_time} to {end_time} seconds. "
+                    "Prioritize funny, surprising, emotional, or useful "
+                    "moments. Return JSON only.\n\n"
+                    f"TRANSCRIPT:\n{transcript_text}"
+                )
+            }
+        ],
+        response_format={"type": "json_object"},
+        temperature=0.2,
+        max_completion_tokens=1000
+    )
+
+    result = json.loads(response.choices[0].message.content)
+    starts = result.get("starts", [])
+
+    if not isinstance(starts, list) or len(starts) != clip_count:
+        raise HTTPException(
+            500,
+            "AI could not select the requested highlights."
+        )
+
+    max_start = end_time - clip_length
+    valid_starts = []
+
+    for value in starts:
+        value = float(value)
+        if start_time <= value <= max_start:
+            valid_starts.append(value)
+
+    if len(valid_starts) != clip_count:
+        raise HTTPException(
+            500,
+            "AI returned invalid highlight times."
+        )
+
+    return sorted(valid_starts)
+
+
+@app.get("/health")
+def health():
+    return {"status": "ClipForge is running"}
+
+
+
 @app.get("/health")
 def health():
     return {"status": "ClipForge is running"}
