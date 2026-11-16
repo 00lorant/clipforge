@@ -85,7 +85,7 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
                     "You select engaging video highlights. "
                     "Return exactly one valid JSON object. "
                     "The object must have one key named starts. "
-                    "The value must be an array of numbers. ". 
+                    "The value must be an array of numbers. "
                     "Do not include markdown, explanations, or extra text. "
                     "Example: {\"starts\": [12.5, 45.0]}"
                  )
