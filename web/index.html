@@ -114,11 +114,21 @@
       <form id="clipForm">
         <label for="video">Upload a video</label>
         <input id="video" type="file" accept="video/*" required>
+        
+        <label for="youtubeUrl">YouTube video link</label>
+        <input
+          id="youtubeUrl"
+          type="url"
+          placeholder="Paste a YouTube link here"
+        >
+        <p class="note">
+         Paste a link to a video you own or have permission to use.
+         </p>
         <label for="startTime">Start time (seconds)</label>
-<input id="startTime" type="number" min="0" value="0" step="1">
+        <input id="startTime" type="number" min="0" value="0" step="1">
 
-<label for="endTime">End time (seconds)</label>
-<input id="endTime" type="number" min="1" placeholder="End of video" step="1">
+        <label for="endTime">End time (seconds)</label>
+        <input id="endTime" type="number" min="1" placeholder="End of video" step="1">
        <label for="template">Choose a template</label>
 <select id="template">
   <option value="viral">Viral Captions</option>
