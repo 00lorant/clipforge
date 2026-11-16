@@ -83,9 +83,12 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
                 "role": "system",
                 "content": (
                     "You select engaging video highlights. "
-                    "Return only valid JSON with a key named starts "
-                    "containing a list of clip start times in seconds."
-                )
+                    "Return exactly one valid JSON object. "
+                    "The object must have one key named starts. "
+                    "The value must be an array of numbers. ". 
+                    "Do not include markdown, explanations, or extra text. "
+                    "Example: {\"starts\": [12.5, 45.0]}"
+                 )
             },
             {
                 "role": "user",
