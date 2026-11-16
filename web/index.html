@@ -184,10 +184,18 @@
 
       const file = document.getElementById("video").files[0];
 
-      if (!file) {
-        statusBox.textContent = "Please choose a video first.";
-        return;
-      }
+      const youtubeUrl = document.getElementById("youtubeUrl").value.trim();
+
+if (!file && !youtubeUrl) {
+  statusBox.textContent = "Please upload a video or paste a YouTube link.";
+  return;
+}
+
+if (youtubeUrl && !file) {
+  statusBox.textContent =
+    "YouTube link detected. Video importing is not connected yet.";
+  return;
+}
 
       const data = new FormData();
       data.append("video", file, "clipforge-upload.mp4");
