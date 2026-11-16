@@ -186,14 +186,14 @@
 
       const youtubeUrl = document.getElementById("youtubeUrl").value.trim();
 
-if (!file && !youtubeUrl) {
+      if (!file && !youtubeUrl) {
   statusBox.textContent = "Please upload a video or paste a YouTube link.";
   return;
 }
 
 if (youtubeUrl && !file) {
   statusBox.textContent =
-    "YouTube link detected. Video importing is not connected yet.";
+    "Please download your authorized video through YouTube Studio, then upload the video file here.";
   return;
 }
 
