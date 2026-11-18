@@ -108,7 +108,7 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
         max_completion_tokens=2000
     )
 
-        response_content = response.choices[0].message.content
+    response_content = response.choices[0].message.content
 
     if not response_content:
         raise HTTPException(
