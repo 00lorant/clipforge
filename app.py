@@ -108,7 +108,51 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
         max_completion_tokens=2000
     )
 
-    result = json.loads(response.choices[0].message.content)
+        response_content = response.choices[0].message.content
+
+    if not response_content:
+        raise HTTPException(
+            500,
+            "AI returned an empty highlight response. Please try again."
+        )
+
+    try:
+        result = json.loads(response_content)
+    except (json.JSONDecodeError, TypeError):
+        logging.warning("Groq returned invalid highlight JSON; retrying once.")
+        retry_response = groq_client.chat.completions.create(
+            model="openai/gpt-oss-20b",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Return only a valid JSON object with one key named "
+                        "starts. Its value must be an array of numbers. "
+                        "No markdown or explanations."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Choose {clip_count} clip start times. Each clip is "
+                        f"{clip_length} seconds. Allowed start range: "
+                        f"{start_time} to {max_start}. "
+                        f"Transcript:\n{transcript_text}"
+                    )
+                }
+            ],
+            response_format={"type": "json_object"},
+            reasoning_effort="low",
+            temperature=0.1,
+            max_completion_tokens=2000
+        )
+        retry_content = retry_response.choices[0].message.content
+        if not retry_content:
+            raise HTTPException(
+                500,
+                "AI returned an empty highlight response. Please try again."
+            )
+        result = json.loads(retry_content)
     starts = result.get("starts", [])
 
     if not isinstance(starts, list) or len(starts) != clip_count:
