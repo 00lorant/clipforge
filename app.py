@@ -291,21 +291,7 @@ def process_video(
         logging.info("Audio extraction completed: job %s", job_id)
 
 
-        subprocess.run(
-            [
-                "ffmpeg", "-y",
-                "-i", str(input_path),
-                "-vn",
-                "-ac", "1",
-                "-ar", "16000",
-                "-b:a", "64k",
-                str(audio_path)
-            ],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        logging.info("Audio extraction completed: job %s", job_id)
+
         transcription = transcribe_audio(audio_path)
         logging.info("Transcription completed: job %s", job_id)
         
