@@ -269,7 +269,27 @@ def process_video(
                 400,
                 "The selected time range is shorter than your clip length."
             )
+        
         audio_path = job_dir / "audio.mp3"
+
+        subprocess.run(
+            [
+                "ffmpeg", "-y",
+                "-ss", str(start_time),
+                "-i", str(input_path),
+                "-t", str(range_duration),
+                "-vn",
+                "-ac", "1",
+                "-ar", "16000",
+                "-b:a", "64k",
+                str(audio_path)
+            ],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        logging.info("Audio extraction completed: job %s", job_id)
+
 
         subprocess.run(
             [
@@ -297,13 +317,21 @@ def process_video(
 
         logging.info("AI highlight selection started: job %s", job_id)
 
-        highlight_starts = select_highlights(
+        
+        relative_starts = select_highlights(
             transcription,
             clip_count,
             clip_length,
-            start_time,
-            end_time
+            0,
+            range_duration
         )
+
+        highlight_starts = [
+            start_time + relative_start
+            for relative_start in relative_starts
+        ]
+
+        
 
         logging.info(
             "AI selected %s highlights: job %s",
