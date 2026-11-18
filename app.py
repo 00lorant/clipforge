@@ -103,8 +103,9 @@ def select_highlights(transcription, clip_count, clip_length, start_time, end_ti
             }
         ],
         response_format={"type": "json_object"},
+        reasoning_effort="low",
         temperature=0.2,
-        max_completion_tokens=1000
+        max_completion_tokens=2000
     )
 
     result = json.loads(response.choices[0].message.content)
